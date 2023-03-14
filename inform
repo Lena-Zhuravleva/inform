@@ -1,0 +1,87 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double rek_kx(double x, int k);
+double factorial(double N);
+double sh_x(double x);
+double epss(double eps);
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+	double k, x;
+	cout << "Введите значение для k\n>";
+	cin >> k;
+	cout << "Введите значение для x\n>";
+	cin >> x;
+	double sh = sh_x(x);
+	cout << sh << endl;
+	double fac;
+	for (int i = 0; i <= k; i++)
+		fac = pow(x, 2 * i - 1) / rek_kx(x, i);
+	cout << fac << endl;
+	int count = 0;
+	float x1;
+	//
+	for (float i = 2; i < 10; i ++)
+	{
+		x1 = i;
+		count += 1;
+		cout << "__________________\n";
+		cout << "x = " << x1 << endl;
+		cout << "f1 = " << sh_x(x1) << endl;
+	}
+	cout << "__________________\n";
+	cout << "Количество проходов " << count << endl;
+	double eps1 = 0.1;
+	epss(eps1);
+	return 0;
+}
+double rek_kx(double x, int k)
+{
+	double c;
+	if ((2 * k - 1) == 0)
+		c = 1;
+	if ((2 * k - 1 < 0))
+		c = 0;
+	else 
+		c = factorial(2 * k - 1);
+	
+	return c;
+}
+double factorial(double N)
+{
+	double result = 1;
+	for (int i = 1; i <= N; i++)
+		result *= i;
+	return result;
+}
+double sh_x(double x)
+{
+	double sh = (exp(x) - exp(-x)) / 2;
+	return sh;
+}
+double epss(double eps)
+{
+	double x2 = 1000;
+	double f1, f2;
+	int k = 0;
+	int c = 1;
+	f1 = pow(x2, 2 * k - 1) / rek_kx(x2, k);
+	f2 = pow(x2, 2 * c - 1) / rek_kx(x2, c);
+	while(abs(f2 - f1) > eps)
+	{ 
+		x2++;
+		k++;
+		f1 = pow(x2, 2 * k - 1) / rek_kx(x2, k);
+		c++;
+		f2 = pow(x2, 2 * c - 1) / rek_kx(x2, c);
+		if (abs(f2 - f1) <= eps)
+			break;
+		cout <<"текущий элемент " << f1 << " ";
+		cout << "следующий элемент " << f2 << " ";
+		cout <<"значение к = " << k << endl;
+	}
+	
+	return 0;
+}
